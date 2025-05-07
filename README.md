@@ -102,11 +102,10 @@ Esses eventos são emitidos internamente no domínio para futura extensibilidade
 ## 💻 Como Clonar o Projeto
 
 ```bash
-git clone https://github.com/seu-usuario/developerstore-sales-api.git
+git clone https://github.com/rafasdiass/developerstore-sales-backend.git
 cd developerstore-sales-api
 ```
 
-> Substitua `seu-usuario` pela sua conta GitHub
 
 ---
 
@@ -157,8 +156,8 @@ A suíte cobre:
 
 Desenvolvido por **Rafael de Souza Dias**
 
-- GitHub: [rafael](https://github.com/seu-usuario)
-- E-mail: rafael.seu@email.com
-- LinkedIn: [linkedin.com/in/rafael](https://www.linkedin.com/in/seu-linkedin)
+- GitHub: [rafael](https://github.com/rafasdiass)
+- E-mail: rafasdiasdev@gmail.com
+- LinkedIn: [linkedin.com/in/rdrafaeldias](https://www.linkedin.com/in/rdrafaeldias/)
 
 ---
