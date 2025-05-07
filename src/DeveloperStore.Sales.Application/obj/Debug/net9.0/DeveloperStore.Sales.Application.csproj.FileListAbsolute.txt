@@ -1,0 +1,15 @@
+/Users/rafaeldias/Downloads/teste .net/DeveloperStore.Sales/src/DeveloperStore.Sales.Application/obj/Debug/net9.0/DeveloperStore.Sales.Application.csproj.AssemblyReference.cache
+/Users/rafaeldias/Downloads/teste .net/DeveloperStore.Sales/src/DeveloperStore.Sales.Application/obj/Debug/net9.0/DeveloperStore.Sales.Application.GeneratedMSBuildEditorConfig.editorconfig
+/Users/rafaeldias/Downloads/teste .net/DeveloperStore.Sales/src/DeveloperStore.Sales.Application/obj/Debug/net9.0/DeveloperStore.Sales.Application.AssemblyInfoInputs.cache
+/Users/rafaeldias/Downloads/teste .net/DeveloperStore.Sales/src/DeveloperStore.Sales.Application/obj/Debug/net9.0/DeveloperStore.Sales.Application.AssemblyInfo.cs
+/Users/rafaeldias/Downloads/teste .net/DeveloperStore.Sales/src/DeveloperStore.Sales.Application/obj/Debug/net9.0/DeveloperStore.Sales.Application.csproj.CoreCompileInputs.cache
+/Users/rafaeldias/Downloads/teste .net/DeveloperStore.Sales/src/DeveloperStore.Sales.Application/bin/Debug/net9.0/DeveloperStore.Sales.Application.deps.json
+/Users/rafaeldias/Downloads/teste .net/DeveloperStore.Sales/src/DeveloperStore.Sales.Application/bin/Debug/net9.0/DeveloperStore.Sales.Application.dll
+/Users/rafaeldias/Downloads/teste .net/DeveloperStore.Sales/src/DeveloperStore.Sales.Application/bin/Debug/net9.0/DeveloperStore.Sales.Application.pdb
+/Users/rafaeldias/Downloads/teste .net/DeveloperStore.Sales/src/DeveloperStore.Sales.Application/bin/Debug/net9.0/DeveloperStore.Sales.Domain.dll
+/Users/rafaeldias/Downloads/teste .net/DeveloperStore.Sales/src/DeveloperStore.Sales.Application/bin/Debug/net9.0/DeveloperStore.Sales.Domain.pdb
+/Users/rafaeldias/Downloads/teste .net/DeveloperStore.Sales/src/DeveloperStore.Sales.Application/obj/Debug/net9.0/Develope.FFCECD8F.Up2Date
+/Users/rafaeldias/Downloads/teste .net/DeveloperStore.Sales/src/DeveloperStore.Sales.Application/obj/Debug/net9.0/DeveloperStore.Sales.Application.dll
+/Users/rafaeldias/Downloads/teste .net/DeveloperStore.Sales/src/DeveloperStore.Sales.Application/obj/Debug/net9.0/refint/DeveloperStore.Sales.Application.dll
+/Users/rafaeldias/Downloads/teste .net/DeveloperStore.Sales/src/DeveloperStore.Sales.Application/obj/Debug/net9.0/DeveloperStore.Sales.Application.pdb
+/Users/rafaeldias/Downloads/teste .net/DeveloperStore.Sales/src/DeveloperStore.Sales.Application/obj/Debug/net9.0/ref/DeveloperStore.Sales.Application.dll
