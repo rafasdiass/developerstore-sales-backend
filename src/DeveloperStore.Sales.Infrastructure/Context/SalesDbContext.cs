@@ -1,3 +1,5 @@
+// src/DeveloperStore.Sales.Infrastructure/Context/SalesDbContext.cs
+
 using Microsoft.EntityFrameworkCore;
 using DeveloperStore.Sales.Domain.Entities;
 
@@ -31,9 +33,18 @@ namespace DeveloperStore.Sales.Infrastructure.Context
         /// </summary>
         public DbSet<Branch> Branches { get; set; } = null!;
 
+        /// <summary>
+        /// Conjunto de clientes.
+        /// </summary>
+        public DbSet<Customer> Customers { get; set; } = null!;
+
+        /// <summary>
+        /// Aplica configurações de mapeamento via Fluent API.
+        /// </summary>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Aplica todos os mapeamentos de IEntityTypeConfiguration<T> do assembly
+            // Este método vai buscar todas as classes que implementam IEntityTypeConfiguration<T>
+            // no assembly atual e aplicar automaticamente seus mapeamentos:
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(SalesDbContext).Assembly);
 
             base.OnModelCreating(modelBuilder);

@@ -1,4 +1,4 @@
-// src/DeveloperStore.Sales.Application/Repositories/IBranchRepository.cs
+
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
