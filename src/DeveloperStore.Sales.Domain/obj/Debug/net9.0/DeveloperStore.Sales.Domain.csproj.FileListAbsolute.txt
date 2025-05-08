@@ -9,3 +9,4 @@
 /Users/rafaeldias/Downloads/teste .net/DeveloperStore.Sales/src/DeveloperStore.Sales.Domain/obj/Debug/net9.0/refint/DeveloperStore.Sales.Domain.dll
 /Users/rafaeldias/Downloads/teste .net/DeveloperStore.Sales/src/DeveloperStore.Sales.Domain/obj/Debug/net9.0/DeveloperStore.Sales.Domain.pdb
 /Users/rafaeldias/Downloads/teste .net/DeveloperStore.Sales/src/DeveloperStore.Sales.Domain/obj/Debug/net9.0/ref/DeveloperStore.Sales.Domain.dll
+/Users/rafaeldias/Downloads/teste .net/DeveloperStore.Sales/src/DeveloperStore.Sales.Domain/obj/Debug/net9.0/DeveloperStore.Sales.Domain.sourcelink.json

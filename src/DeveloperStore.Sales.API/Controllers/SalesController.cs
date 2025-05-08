@@ -1,10 +1,7 @@
+
+using Microsoft.AspNetCore.Mvc;
 using DeveloperStore.Sales.Application.Commands.CreateSale;
 using DeveloperStore.Sales.Application.Repositories;
-using DeveloperStore.Sales.Domain.Entities;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace DeveloperStore.Sales.API.Controllers
 {
@@ -26,13 +23,17 @@ namespace DeveloperStore.Sales.API.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateSale([FromBody] CreateSaleCommand command)
         {
-            if (command == null)
+            if (command is null)
                 return BadRequest("Dados da venda são obrigatórios.");
 
             try
             {
                 var id = await _createHandler.HandleAsync(command);
-                return CreatedAtAction(nameof(GetSaleById), new { id }, new { id });
+                return CreatedAtAction(
+                    nameof(GetSaleById),
+                    new { id },
+                    new { id }
+                );
             }
             catch (ArgumentException ex)
             {
@@ -52,7 +53,7 @@ namespace DeveloperStore.Sales.API.Controllers
         public async Task<IActionResult> GetSaleById(Guid id)
         {
             var sale = await _repository.GetByIdAsync(id);
-            if (sale == null)
+            if (sale is null)
                 return NotFound();
 
             var result = new
@@ -66,17 +67,19 @@ namespace DeveloperStore.Sales.API.Controllers
                 sale.BranchName,
                 sale.IsCancelled,
                 sale.TotalAmount,
-                Items = sale.Items.Select(i => new
-                {
-                    i.Id,
-                    i.ProductId,
-                    i.ProductName,
-                    i.Quantity,
-                    i.UnitPrice,
-                    i.Discount,
-                    i.TotalItemAmount,
-                    i.IsCancelled
-                })
+                Items = sale.Items
+                    .Select(i => new
+                    {
+                        i.Id,
+                        i.ProductId,
+                        i.ProductName,
+                        i.Quantity,
+                        i.UnitPrice,
+                        i.Discount,
+                        i.TotalItemAmount,
+                        i.IsCancelled
+                    })
+                    .ToList()
             };
 
             return Ok(result);

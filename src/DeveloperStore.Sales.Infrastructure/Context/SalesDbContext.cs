@@ -8,17 +8,32 @@ namespace DeveloperStore.Sales.Infrastructure.Context
     /// </summary>
     public class SalesDbContext : DbContext
     {
-        public DbSet<Sale> Sales { get; set; }
-        public DbSet<SaleItem> SaleItems { get; set; }
-
+        /// <summary>
+        /// Construtor que recebe as opções configuradas em startup.
+        /// </summary>
         public SalesDbContext(DbContextOptions<SalesDbContext> options)
             : base(options)
         {
         }
 
+        /// <summary>
+        /// Conjunto de vendas.
+        /// </summary>
+        public DbSet<Sale> Sales { get; set; } = null!;
+
+        /// <summary>
+        /// Conjunto de itens de venda.
+        /// </summary>
+        public DbSet<SaleItem> SaleItems { get; set; } = null!;
+
+        /// <summary>
+        /// Conjunto de filiais.
+        /// </summary>
+        public DbSet<Branch> Branches { get; set; } = null!;
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Aplica os mapeamentos de forma modular
+            // Aplica todos os mapeamentos de IEntityTypeConfiguration<T> do assembly
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(SalesDbContext).Assembly);
 
             base.OnModelCreating(modelBuilder);

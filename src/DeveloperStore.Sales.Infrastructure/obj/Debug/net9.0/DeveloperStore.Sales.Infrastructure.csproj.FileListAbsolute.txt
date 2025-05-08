@@ -17,3 +17,4 @@
 /Users/rafaeldias/Downloads/teste .net/DeveloperStore.Sales/src/DeveloperStore.Sales.Infrastructure/obj/Debug/net9.0/DeveloperStore.Sales.Infrastructure.pdb
 /Users/rafaeldias/Downloads/teste .net/DeveloperStore.Sales/src/DeveloperStore.Sales.Infrastructure/obj/Debug/net9.0/DeveloperStore.Sales.Infrastructure.genruntimeconfig.cache
 /Users/rafaeldias/Downloads/teste .net/DeveloperStore.Sales/src/DeveloperStore.Sales.Infrastructure/obj/Debug/net9.0/ref/DeveloperStore.Sales.Infrastructure.dll
+/Users/rafaeldias/Downloads/teste .net/DeveloperStore.Sales/src/DeveloperStore.Sales.Infrastructure/obj/Debug/net9.0/DeveloperStore.Sales.Infrastructure.sourcelink.json
