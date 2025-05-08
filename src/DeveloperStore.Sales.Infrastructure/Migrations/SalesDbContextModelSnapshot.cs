@@ -57,6 +57,25 @@ namespace DeveloperStore.Sales.Infrastructure.Migrations
                     b.ToTable("Customers", (string)null);
                 });
 
+            modelBuilder.Entity("DeveloperStore.Sales.Domain.Entities.Product", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Products", (string)null);
+                });
+
             modelBuilder.Entity("DeveloperStore.Sales.Domain.Entities.Sale", b =>
                 {
                     b.Property<Guid>("Id")
@@ -120,7 +139,7 @@ namespace DeveloperStore.Sales.Infrastructure.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("INTEGER");
 
-                    b.Property<Guid?>("SaleId")
+                    b.Property<Guid>("SaleId")
                         .HasColumnType("TEXT");
 
                     b.Property<decimal>("UnitPrice")
@@ -146,10 +165,13 @@ namespace DeveloperStore.Sales.Infrastructure.Migrations
 
             modelBuilder.Entity("DeveloperStore.Sales.Domain.Entities.SaleItem", b =>
                 {
-                    b.HasOne("DeveloperStore.Sales.Domain.Entities.Sale", null)
+                    b.HasOne("DeveloperStore.Sales.Domain.Entities.Sale", "Sale")
                         .WithMany("Items")
                         .HasForeignKey("SaleId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Sale");
                 });
 
             modelBuilder.Entity("DeveloperStore.Sales.Domain.Entities.Customer", b =>

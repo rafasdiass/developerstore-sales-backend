@@ -1,5 +1,3 @@
-
-
 using System;
 using System.Threading.Tasks;
 using DeveloperStore.Sales.Application.Repositories;
@@ -8,9 +6,6 @@ using DeveloperStore.Sales.Domain.Services;
 
 namespace DeveloperStore.Sales.Application.Commands.CreateSale
 {
-    /// <summary>
-    /// Handler responsável por processar o comando de criação de uma venda.
-    /// </summary>
     public class CreateSaleCommandHandler
     {
         private readonly ISaleRepository _repository;
@@ -24,18 +19,14 @@ namespace DeveloperStore.Sales.Application.Commands.CreateSale
             _discountCalculator = discountCalculator ?? throw new ArgumentNullException(nameof(discountCalculator));
         }
 
-        /// <summary>
-        /// Executa o fluxo de criação da venda, instanciando Sale e SaleItem corretamente.
-        /// </summary>
-        /// <param name="command">Dados da nova venda (sem saleNumber, pois é gerado).</param>
-        /// <returns>O Guid gerado para a nova venda.</returns>
         public async Task<Guid> HandleAsync(CreateSaleCommand command)
         {
-            if (command == null)
+            if (command is null)
                 throw new ArgumentNullException(nameof(command));
 
-            // Cria o agregado raiz Sale;
-            // o SaleNumber será gerado internamente
+            if (command.Items is null || command.Items.Count == 0)
+                throw new ArgumentException("A venda deve ter pelo menos um item.", nameof(command.Items));
+
             var sale = new Sale(
                 command.SaleDate,
                 command.CustomerId,
@@ -44,11 +35,10 @@ namespace DeveloperStore.Sales.Application.Commands.CreateSale
                 command.BranchName
             );
 
-            // Cria e adiciona cada item ao agregado
             foreach (var itemCmd in command.Items)
             {
-                if (itemCmd == null)
-                    throw new ArgumentException("Item de venda inválido.", nameof(command.Items));
+                if (itemCmd is null)
+                    throw new ArgumentException("Item de venda não pode ser nulo.", nameof(command.Items));
 
                 var saleItem = new SaleItem(
                     itemCmd.ProductId,
@@ -61,7 +51,6 @@ namespace DeveloperStore.Sales.Application.Commands.CreateSale
                 sale.AddItem(saleItem);
             }
 
-            // Persiste a venda e retorna o Id
             return await _repository.AddAsync(sale);
         }
     }

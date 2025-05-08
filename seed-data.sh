@@ -2,87 +2,81 @@
 set -euo pipefail
 
 API="http://localhost:5211/api"
-
-echo "=== Criando filiais ==="
-BR1_LOC=$(curl -si -X POST "$API/branches" \
-  -H 'Content-Type: application/json' \
-  -d '{"name":"Filial Centro"}' \
-  | awk '/^Location: /{print $2}' | tr -d '\r')
-BR1_ID=${BR1_LOC##*/}
-
-BR2_LOC=$(curl -si -X POST "$API/branches" \
-  -H 'Content-Type: application/json' \
-  -d '{"name":"Filial Zona Sul"}' \
-  | awk '/^Location: /{print $2}' | tr -d '\r')
-BR2_ID=${BR2_LOC##*/}
-
-echo "  Centro : $BR1_ID"
-echo "  Zona Sul: $BR2_ID"
+CURL_OPTS=(-sSf -H "Content-Type: application/json")
 
 echo
-echo "=== Criando clientes ==="
-C1_LOC=$(curl -si -X POST "$API/customers" \
-  -H 'Content-Type: application/json' \
-  -d '{"name":"Alice Silva"}' \
-  | awk '/^Location: /{print $2}' | tr -d '\r')
-C1_ID=${C1_LOC##*/}
+echo "=== 1) Seed de Filiais ==="
+BR1_ID=$(curl "${CURL_OPTS[@]}" -X POST "$API/branches" -d '{"name":"Filial Centro"}' | jq -r '.id')
+BR2_ID=$(curl "${CURL_OPTS[@]}" -X POST "$API/branches" -d '{"name":"Filial Zona Sul"}' | jq -r '.id')
+BR3_ID=$(curl "${CURL_OPTS[@]}" -X POST "$API/branches" -d '{"name":"Filial Norte"}' | jq -r '.id')
 
-C2_LOC=$(curl -si -X POST "$API/customers" \
-  -H 'Content-Type: application/json' \
-  -d '{"name":"Bruno Costa"}' \
-  | awk '/^Location: /{print $2}' | tr -d '\r')
-C2_ID=${C2_LOC##*/}
-
-echo "  Alice Silva : $C1_ID"
-echo "  Bruno Costa : $C2_ID"
+echo "  • Filial Centro  -> $BR1_ID"
+echo "  • Filial Zona Sul-> $BR2_ID"
+echo "  • Filial Norte   -> $BR3_ID"
 
 echo
-echo "=== Criando vendas ==="
-# Venda 1: Alice na Centro, 2 unidades de Produto X a R$12,50
-SALE1_LOC=$(curl -si -X POST "$API/sales" \
-  -H 'Content-Type: application/json' \
-  -d "{
-    \"saleDate\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\",
-    \"customerId\": \"$C1_ID\",
-    \"customerName\": \"Alice Silva\",
-    \"branchId\": \"$BR1_ID\",
-    \"branchName\": \"Filial Centro\",
-    \"items\": [
-      {
-        \"productId\": \"11111111-1111-1111-1111-111111111111\",
-        \"productName\": \"Produto X\",
-        \"quantity\": 2,
-        \"unitPrice\": 12.50
-      }
-    ]
-  }" \
-  | awk '/^Location: /{print $2}' | tr -d '\r')
-SALE1_ID=${SALE1_LOC##*/}
+echo "=== 2) Seed de Clientes ==="
+C1_ID=$(curl "${CURL_OPTS[@]}" -X POST "$API/customers" -d '{"name":"Alice Silva", "email":"alice.silva@example.com"}' | jq -r '.id')
+C2_ID=$(curl "${CURL_OPTS[@]}" -X POST "$API/customers" -d '{"name":"Bruno Costa", "email":"bruno.costa@example.com"}' | jq -r '.id')
+C3_ID=$(curl "${CURL_OPTS[@]}" -X POST "$API/customers" -d '{"name":"Carla Souza", "email":"carla.souza@example.com"}' | jq -r '.id')
+C4_ID=$(curl "${CURL_OPTS[@]}" -X POST "$API/customers" -d '{"name":"Daniel Santos", "email":"daniel.santos@example.com"}' | jq -r '.id')
 
-echo "  Venda 1 (Alice) : $SALE1_ID"
-
-# Venda 2: Bruno na Zona Sul, 5 unidades de Produto Y a R$8,30
-SALE2_LOC=$(curl -si -X POST "$API/sales" \
-  -H 'Content-Type: application/json' \
-  -d "{
-    \"saleDate\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\",
-    \"customerId\": \"$C2_ID\",
-    \"customerName\": \"Bruno Costa\",
-    \"branchId\": \"$BR2_ID\",
-    \"branchName\": \"Filial Zona Sul\",
-    \"items\": [
-      {
-        \"productId\": \"22222222-2222-2222-2222-222222222222\",
-        \"productName\": \"Produto Y\",
-        \"quantity\": 5,
-        \"unitPrice\": 8.30
-      }
-    ]
-  }" \
-  | awk '/^Location: /{print $2}' | tr -d '\r')
-SALE2_ID=${SALE2_LOC##*/}
-
-echo "  Venda 2 (Bruno): $SALE2_ID"
+echo "  • Alice Silva    -> $C1_ID"
+echo "  • Bruno Costa    -> $C2_ID"
+echo "  • Carla Souza    -> $C3_ID"
+echo "  • Daniel Santos  -> $C4_ID"
 
 echo
-echo "=== Seed concluído! ==="
+echo "=== 3) Seed de Produtos ==="
+P1_ID=$(curl "${CURL_OPTS[@]}" -X POST "$API/products" -d '{"name":"Produto X","price":10.00}' | jq -r '.id')
+P2_ID=$(curl "${CURL_OPTS[@]}" -X POST "$API/products" -d '{"name":"Produto Y","price":15.50}' | jq -r '.id')
+P3_ID=$(curl "${CURL_OPTS[@]}" -X POST "$API/products" -d '{"name":"Produto Z","price":7.25}' | jq -r '.id')
+
+echo "  • Produto X -> $P1_ID (R\$10,00)"
+echo "  • Produto Y -> $P2_ID (R\$15,50)"
+echo "  • Produto Z -> $P3_ID (R\$7,25)"
+
+echo
+echo "=== 4) Seed de Vendas ==="
+SALE1_ID=$(curl "${CURL_OPTS[@]}" -X POST "$API/sales" -d "{
+  \"saleNumber\": \"\",
+  \"saleDate\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\",
+  \"customerId\": \"$C1_ID\",
+  \"customerName\": \"Alice Silva\",
+  \"branchId\": \"$BR1_ID\",
+  \"branchName\": \"Filial Centro\",
+  \"items\": [
+    {\"productId\":\"$P1_ID\",\"productName\":\"Produto X\",\"quantity\":2,\"unitPrice\":10.00}
+  ]
+}" | jq -r '.id')
+echo "  • Venda 1 (Alice) -> $SALE1_ID"
+
+SALE2_ID=$(curl "${CURL_OPTS[@]}" -X POST "$API/sales" -d "{
+  \"saleNumber\": \"\",
+  \"saleDate\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\",
+  \"customerId\": \"$C2_ID\",
+  \"customerName\": \"Bruno Costa\",
+  \"branchId\": \"$BR2_ID\",
+  \"branchName\": \"Filial Zona Sul\",
+  \"items\": [
+    {\"productId\":\"$P2_ID\",\"productName\":\"Produto Y\",\"quantity\":1,\"unitPrice\":15.50},
+    {\"productId\":\"$P3_ID\",\"productName\":\"Produto Z\",\"quantity\":3,\"unitPrice\":7.25}
+  ]
+}" | jq -r '.id')
+echo "  • Venda 2 (Bruno) -> $SALE2_ID"
+
+SALE3_ID=$(curl "${CURL_OPTS[@]}" -X POST "$API/sales" -d "{
+  \"saleNumber\": \"\",
+  \"saleDate\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\",
+  \"customerId\": \"$C3_ID\",
+  \"customerName\": \"Carla Souza\",
+  \"branchId\": \"$BR3_ID\",
+  \"branchName\": \"Filial Norte\",
+  \"items\": [
+    {\"productId\":\"$P3_ID\",\"productName\":\"Produto Z\",\"quantity\":5,\"unitPrice\":7.25}
+  ]
+}" | jq -r '.id')
+echo "  • Venda 3 (Carla) -> $SALE3_ID"
+
+echo
+echo "=== 🎉 Seed concluído com sucesso! ==="

@@ -1,41 +1,26 @@
-
-
 using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using DeveloperStore.Sales.Domain.Services;
 
 namespace DeveloperStore.Sales.Domain.Entities
 {
-    /// <summary>
-    /// Representa um item dentro de uma venda.
-    /// </summary>
     public class SaleItem
     {
         public Guid Id { get; private set; }
+        public Guid SaleId { get; private set; }
         public Guid ProductId { get; private set; }
-        public required string ProductName { get; init; }
+        public string ProductName { get; private set; } = null!;
         public int Quantity { get; private set; }
         public decimal UnitPrice { get; private set; }
         public decimal Discount { get; private set; }
         public bool IsCancelled { get; private set; }
 
-        /// <summary>
-        /// Valor total do item (quantidade * preço unitário - desconto).
-        /// </summary>
         public decimal TotalItemAmount
             => Math.Round((UnitPrice * Quantity) - Discount, 2);
 
-        /// <summary>
-        /// Construtor privado usado pelo EF Core
-        /// </summary>
-        private SaleItem() { }
+        public Sale? Sale { get; private set; }
 
-        /// <summary>
-        /// Construtor principal que aplica as regras de negócio e preenche todos os membros.
-        /// </summary>
-        [SetsRequiredMembers]
+        private SaleItem() { } // EF Core
+
         public SaleItem(
             Guid productId,
             string productName,
@@ -59,12 +44,10 @@ namespace DeveloperStore.Sales.Domain.Entities
             IsCancelled = false;
         }
 
-        /// <summary>
-        /// Cancela o item de venda.
-        /// </summary>
         public void Cancel()
         {
-            if (!IsCancelled) IsCancelled = true;
+            if (!IsCancelled)
+                IsCancelled = true;
         }
     }
 }
