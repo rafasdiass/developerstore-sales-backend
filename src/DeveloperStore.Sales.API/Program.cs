@@ -1,8 +1,10 @@
 // src/DeveloperStore.Sales.API/Program.cs
+
 using DeveloperStore.Sales.Application.Commands.CreateBranch;
 using DeveloperStore.Sales.Application.Commands.CreateCustomer;
 using DeveloperStore.Sales.Application.Commands.CreateProduct;
 using DeveloperStore.Sales.Application.Commands.CreateSale;
+using DeveloperStore.Sales.Application.Queries.CalculateDiscount; // <-- certifique-se de que este namespace está correto
 using DeveloperStore.Sales.Application.Repositories;
 using DeveloperStore.Sales.Domain.Services;
 using DeveloperStore.Sales.Infrastructure.Context;
@@ -46,7 +48,10 @@ builder.Services.AddScoped<CreateBranchCommandHandler>();
 builder.Services.AddScoped<CreateCustomerCommandHandler>();
 builder.Services.AddScoped<CreateProductCommandHandler>();
 
-// 7) CORS
+// 7) Handler de consulta de desconto (usado pelo DiscountsController)
+builder.Services.AddScoped<CalculateDiscountQueryHandler>();
+
+// 8) CORS
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
@@ -59,7 +64,7 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// 8) Pipeline HTTP
+// 9) Pipeline HTTP
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
