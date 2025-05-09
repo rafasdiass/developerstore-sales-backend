@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DeveloperStore.Sales.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class AddProductEntity : Migration
+    public partial class FixCustomerMapping : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -29,7 +29,7 @@ namespace DeveloperStore.Sales.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
                     Name = table.Column<string>(type: "TEXT", maxLength: 200, nullable: false),
-                    Email = table.Column<string>(type: "TEXT", maxLength: 200, nullable: false)
+                    Email = table.Column<string>(type: "TEXT", maxLength: 200, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -100,6 +100,12 @@ namespace DeveloperStore.Sales.Infrastructure.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Customers_Name",
                 table: "Customers",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_Name",
+                table: "Products",
                 column: "Name",
                 unique: true);
 

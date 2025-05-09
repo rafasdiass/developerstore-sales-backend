@@ -39,7 +39,6 @@ namespace DeveloperStore.Sales.Infrastructure.Migrations
                         .HasColumnName("Id");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("TEXT");
 
@@ -60,7 +59,6 @@ namespace DeveloperStore.Sales.Infrastructure.Migrations
             modelBuilder.Entity("DeveloperStore.Sales.Domain.Entities.Product", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
@@ -72,6 +70,9 @@ namespace DeveloperStore.Sales.Infrastructure.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("Products", (string)null);
                 });

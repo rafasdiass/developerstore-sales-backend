@@ -1,8 +1,3 @@
-/Users/rafaeldias/Downloads/teste .net/DeveloperStore.Sales/src/DeveloperStore.Sales.Infrastructure/obj/Debug/net9.0/DeveloperStore.Sales.Infrastructure.csproj.AssemblyReference.cache
-/Users/rafaeldias/Downloads/teste .net/DeveloperStore.Sales/src/DeveloperStore.Sales.Infrastructure/obj/Debug/net9.0/DeveloperStore.Sales.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
-/Users/rafaeldias/Downloads/teste .net/DeveloperStore.Sales/src/DeveloperStore.Sales.Infrastructure/obj/Debug/net9.0/DeveloperStore.Sales.Infrastructure.AssemblyInfoInputs.cache
-/Users/rafaeldias/Downloads/teste .net/DeveloperStore.Sales/src/DeveloperStore.Sales.Infrastructure/obj/Debug/net9.0/DeveloperStore.Sales.Infrastructure.AssemblyInfo.cs
-/Users/rafaeldias/Downloads/teste .net/DeveloperStore.Sales/src/DeveloperStore.Sales.Infrastructure/obj/Debug/net9.0/DeveloperStore.Sales.Infrastructure.csproj.CoreCompileInputs.cache
 /Users/rafaeldias/Downloads/teste .net/DeveloperStore.Sales/src/DeveloperStore.Sales.Infrastructure/bin/Debug/net9.0/DeveloperStore.Sales.Infrastructure.deps.json
 /Users/rafaeldias/Downloads/teste .net/DeveloperStore.Sales/src/DeveloperStore.Sales.Infrastructure/bin/Debug/net9.0/DeveloperStore.Sales.Infrastructure.runtimeconfig.json
 /Users/rafaeldias/Downloads/teste .net/DeveloperStore.Sales/src/DeveloperStore.Sales.Infrastructure/bin/Debug/net9.0/DeveloperStore.Sales.Infrastructure.dll
@@ -11,10 +6,15 @@
 /Users/rafaeldias/Downloads/teste .net/DeveloperStore.Sales/src/DeveloperStore.Sales.Infrastructure/bin/Debug/net9.0/DeveloperStore.Sales.Domain.dll
 /Users/rafaeldias/Downloads/teste .net/DeveloperStore.Sales/src/DeveloperStore.Sales.Infrastructure/bin/Debug/net9.0/DeveloperStore.Sales.Application.pdb
 /Users/rafaeldias/Downloads/teste .net/DeveloperStore.Sales/src/DeveloperStore.Sales.Infrastructure/bin/Debug/net9.0/DeveloperStore.Sales.Domain.pdb
+/Users/rafaeldias/Downloads/teste .net/DeveloperStore.Sales/src/DeveloperStore.Sales.Infrastructure/obj/Debug/net9.0/DeveloperStore.Sales.Infrastructure.csproj.AssemblyReference.cache
+/Users/rafaeldias/Downloads/teste .net/DeveloperStore.Sales/src/DeveloperStore.Sales.Infrastructure/obj/Debug/net9.0/DeveloperStore.Sales.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+/Users/rafaeldias/Downloads/teste .net/DeveloperStore.Sales/src/DeveloperStore.Sales.Infrastructure/obj/Debug/net9.0/DeveloperStore.Sales.Infrastructure.AssemblyInfoInputs.cache
+/Users/rafaeldias/Downloads/teste .net/DeveloperStore.Sales/src/DeveloperStore.Sales.Infrastructure/obj/Debug/net9.0/DeveloperStore.Sales.Infrastructure.AssemblyInfo.cs
+/Users/rafaeldias/Downloads/teste .net/DeveloperStore.Sales/src/DeveloperStore.Sales.Infrastructure/obj/Debug/net9.0/DeveloperStore.Sales.Infrastructure.csproj.CoreCompileInputs.cache
+/Users/rafaeldias/Downloads/teste .net/DeveloperStore.Sales/src/DeveloperStore.Sales.Infrastructure/obj/Debug/net9.0/DeveloperStore.Sales.Infrastructure.sourcelink.json
 /Users/rafaeldias/Downloads/teste .net/DeveloperStore.Sales/src/DeveloperStore.Sales.Infrastructure/obj/Debug/net9.0/Develope.70A0F0E4.Up2Date
 /Users/rafaeldias/Downloads/teste .net/DeveloperStore.Sales/src/DeveloperStore.Sales.Infrastructure/obj/Debug/net9.0/DeveloperStore.Sales.Infrastructure.dll
 /Users/rafaeldias/Downloads/teste .net/DeveloperStore.Sales/src/DeveloperStore.Sales.Infrastructure/obj/Debug/net9.0/refint/DeveloperStore.Sales.Infrastructure.dll
 /Users/rafaeldias/Downloads/teste .net/DeveloperStore.Sales/src/DeveloperStore.Sales.Infrastructure/obj/Debug/net9.0/DeveloperStore.Sales.Infrastructure.pdb
 /Users/rafaeldias/Downloads/teste .net/DeveloperStore.Sales/src/DeveloperStore.Sales.Infrastructure/obj/Debug/net9.0/DeveloperStore.Sales.Infrastructure.genruntimeconfig.cache
 /Users/rafaeldias/Downloads/teste .net/DeveloperStore.Sales/src/DeveloperStore.Sales.Infrastructure/obj/Debug/net9.0/ref/DeveloperStore.Sales.Infrastructure.dll
-/Users/rafaeldias/Downloads/teste .net/DeveloperStore.Sales/src/DeveloperStore.Sales.Infrastructure/obj/Debug/net9.0/DeveloperStore.Sales.Infrastructure.sourcelink.json

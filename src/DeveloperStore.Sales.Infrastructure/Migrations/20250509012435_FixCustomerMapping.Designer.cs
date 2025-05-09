@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DeveloperStore.Sales.Infrastructure.Migrations
 {
     [DbContext(typeof(SalesDbContext))]
-    [Migration("20250508233923_AddProductEntity")]
-    partial class AddProductEntity
+    [Migration("20250509012435_FixCustomerMapping")]
+    partial class FixCustomerMapping
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -42,7 +42,6 @@ namespace DeveloperStore.Sales.Infrastructure.Migrations
                         .HasColumnName("Id");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("TEXT");
 
@@ -63,7 +62,6 @@ namespace DeveloperStore.Sales.Infrastructure.Migrations
             modelBuilder.Entity("DeveloperStore.Sales.Domain.Entities.Product", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
@@ -75,6 +73,9 @@ namespace DeveloperStore.Sales.Infrastructure.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("Products", (string)null);
                 });

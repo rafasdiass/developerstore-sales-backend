@@ -1,5 +1,7 @@
+// src/DeveloperStore.Sales.API/Program.cs
 using DeveloperStore.Sales.Application.Commands.CreateBranch;
 using DeveloperStore.Sales.Application.Commands.CreateCustomer;
+using DeveloperStore.Sales.Application.Commands.CreateProduct;
 using DeveloperStore.Sales.Application.Commands.CreateSale;
 using DeveloperStore.Sales.Application.Repositories;
 using DeveloperStore.Sales.Domain.Services;
@@ -13,7 +15,7 @@ var builder = WebApplication.CreateBuilder(args);
 // 1) Controllers
 builder.Services.AddControllers();
 
-// 2) Swagger
+// 2) Swagger / OpenAPI
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -42,6 +44,7 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<CreateSaleCommandHandler>();
 builder.Services.AddScoped<CreateBranchCommandHandler>();
 builder.Services.AddScoped<CreateCustomerCommandHandler>();
+builder.Services.AddScoped<CreateProductCommandHandler>();
 
 // 7) CORS
 builder.Services.AddCors(options =>
@@ -56,22 +59,20 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// 8) Middleware HTTP
+// 8) Pipeline HTTP
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "Sales API v1");
-        c.RoutePrefix = string.Empty; // Swagger na raiz
+        c.RoutePrefix = string.Empty;
     });
 }
 
 app.UseCors();
-
 app.UseHttpsRedirection();
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();
