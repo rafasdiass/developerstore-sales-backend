@@ -6,20 +6,17 @@ namespace DeveloperStore.Sales.Domain.Entities
     public class SaleItem
     {
         public Guid Id { get; private set; }
+        public Sale? Sale { get; private set; }
         public Guid SaleId { get; private set; }
         public Guid ProductId { get; private set; }
-        public string ProductName { get; private set; } = null!;
+        public string ProductName { get; private set; } = string.Empty;
         public int Quantity { get; private set; }
         public decimal UnitPrice { get; private set; }
         public decimal Discount { get; private set; }
+        public decimal TotalItemAmount => Math.Round((UnitPrice * Quantity) - Discount, 2);
         public bool IsCancelled { get; private set; }
 
-        public decimal TotalItemAmount
-            => Math.Round((UnitPrice * Quantity) - Discount, 2);
-
-        public Sale? Sale { get; private set; }
-
-        private SaleItem() { } // EF Core
+        private SaleItem() { } // EF
 
         public SaleItem(
             Guid productId,
@@ -30,10 +27,6 @@ namespace DeveloperStore.Sales.Domain.Entities
         {
             if (string.IsNullOrWhiteSpace(productName))
                 throw new ArgumentException("Nome do produto é obrigatório.", nameof(productName));
-            if (quantity <= 0)
-                throw new ArgumentException("Quantidade deve ser maior que zero.", nameof(quantity));
-            if (unitPrice <= 0)
-                throw new ArgumentException("Preço unitário deve ser maior que zero.", nameof(unitPrice));
 
             Id = Guid.NewGuid();
             ProductId = productId;
@@ -46,8 +39,7 @@ namespace DeveloperStore.Sales.Domain.Entities
 
         public void Cancel()
         {
-            if (!IsCancelled)
-                IsCancelled = true;
+            IsCancelled = true;
         }
     }
 }

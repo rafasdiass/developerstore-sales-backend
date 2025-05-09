@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DeveloperStore.Sales.Infrastructure.Migrations
 {
     [DbContext(typeof(SalesDbContext))]
-    [Migration("20250509012435_FixCustomerMapping")]
+    [Migration("20250509115606_FixCustomerMapping")]
     partial class FixCustomerMapping
     {
         /// <inheritdoc />

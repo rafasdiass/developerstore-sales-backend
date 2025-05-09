@@ -1,3 +1,4 @@
+// src/DeveloperStore.Sales.Domain/Entities/Sale.cs
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -5,6 +6,9 @@ using DeveloperStore.Sales.Domain.Services;
 
 namespace DeveloperStore.Sales.Domain.Entities
 {
+    /// <summary>
+    /// Representa uma venda no domínio.
+    /// </summary>
     public class Sale
     {
         public Guid Id { get; private set; }
@@ -22,7 +26,7 @@ namespace DeveloperStore.Sales.Domain.Entities
 
         public decimal TotalAmount => _items.Sum(i => i.TotalItemAmount);
 
-        private Sale() { } // EF Core
+        private Sale() { } // Requisito do EF Core
 
         public Sale(
             DateTime saleDate,
@@ -37,13 +41,13 @@ namespace DeveloperStore.Sales.Domain.Entities
                 throw new ArgumentException("Nome da filial é obrigatório.", nameof(branchName));
 
             Id = Guid.NewGuid();
+            SaleNumber = GenerateSaleNumber();
             SaleDate = saleDate;
             CustomerId = customerId;
             CustomerName = customerName.Trim();
             BranchId = branchId;
             BranchName = branchName.Trim();
             IsCancelled = false;
-            SaleNumber = GenerateSaleNumber();
         }
 
         public void AddItem(SaleItem item)
@@ -57,16 +61,18 @@ namespace DeveloperStore.Sales.Domain.Entities
         public void Cancel()
         {
             if (IsCancelled) return;
+
             IsCancelled = true;
+
             foreach (var item in _items)
                 item.Cancel();
         }
 
         private static string GenerateSaleNumber()
         {
-            var ts = DateTime.UtcNow.ToString("yyyyMMddHHmmss");
-            var guidPart = Guid.NewGuid().ToString("N")[..5].ToUpperInvariant();
-            return $"S{ts}-{guidPart}";
+            var timestamp = DateTime.UtcNow.ToString("yyyyMMddHHmmss");
+            var suffix = Guid.NewGuid().ToString("N")[..5].ToUpperInvariant();
+            return $"S{timestamp}-{suffix}";
         }
     }
 }
