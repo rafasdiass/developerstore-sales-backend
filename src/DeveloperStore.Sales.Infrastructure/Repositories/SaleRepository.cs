@@ -49,7 +49,7 @@ namespace DeveloperStore.Sales.Infrastructure.Repositories
             if (sale is null)
                 throw new ArgumentNullException(nameof(sale));
 
-            // 1. Carrega a venda existente do banco com seus itens
+          
             var existing = await _context.Sales
                 .Include(s => s.Items)
                 .FirstOrDefaultAsync(s => s.Id == sale.Id);
@@ -57,17 +57,17 @@ namespace DeveloperStore.Sales.Infrastructure.Repositories
             if (existing is null)
                 throw new InvalidOperationException("Venda não encontrada para atualização.");
 
-            // 2. Atualiza os dados da venda
+          
             _context.Entry(existing).CurrentValues.SetValues(sale);
 
-            // 3. Remove os itens antigos (ToList evita o erro de 'Collection was modified')
-            var itensAntigos = existing.Items.ToList(); // ← importante!
+           
+            var itensAntigos = existing.Items.ToList(); 
             _context.SaleItems.RemoveRange(itensAntigos);
 
-            // 4. Adiciona os novos itens
+           
             foreach (var item in sale.Items)
             {
-                _context.SaleItems.Add(item); // ou existing.AddItem(item) se você quiser manter lógica de domínio
+                _context.SaleItems.Add(item); 
             }
 
             await _context.SaveChangesAsync();
