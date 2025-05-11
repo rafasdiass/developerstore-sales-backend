@@ -1,9 +1,8 @@
 
+````markdown
 # 🛒 DeveloperStore - Sales API
 
 API RESTful desenvolvida para controle de vendas da DeveloperStore, seguindo os princípios de **DDD (Domain-Driven Design)**, **Clean Architecture** e **SOLID**. Esta API permite registrar, consultar e cancelar vendas, aplicar regras de desconto por quantidade e registrar eventos de domínio.
-
----
 
 ## 📚 Sumário
 
@@ -17,87 +16,75 @@ API RESTful desenvolvida para controle de vendas da DeveloperStore, seguindo os 
 - [Testes](#testes)
 - [Autor](#autor)
 
----
-
 ## 🛠 Tecnologias Utilizadas
 
 - [.NET SDK 9+](https://dotnet.microsoft.com/)
 - C# 12
 - ASP.NET Core Web API
 - Entity Framework Core
-- xUnit + FluentAssertions + Moq (testes)
+- xUnit + FluentAssertions + Moq
 - Swagger (documentação de API)
-- Git/GitHub
-
----
+- Git / GitHub
 
 ## 🧱 Arquitetura do Projeto
 
-A API foi desenvolvida com base na **Clean Architecture**, separando claramente as responsabilidades entre as camadas:
-
-```
+```text
 /src
-├── DeveloperStore.Sales.API              # Camada de apresentação (controllers, config, Swagger)
-├── DeveloperStore.Sales.Application     # Casos de uso (DTOs, comandos, serviços de aplicação)
-├── DeveloperStore.Sales.Domain          # Modelos de domínio (entidades, VOs, eventos, interfaces)
-├── DeveloperStore.Sales.Infrastructure  # Repositórios, contexto de dados, integrações externas
-├── DeveloperStore.Sales.Tests           # Testes unitários
-```
-
----
+├── DeveloperStore.Sales.API            # Camada de apresentação (Controllers, config, Swagger)
+├── DeveloperStore.Sales.Application    # Casos de uso (DTOs, comandos, handlers)
+├── DeveloperStore.Sales.Domain         # Modelos de domínio (Entidades, VOs, serviços, interfaces)
+├── DeveloperStore.Sales.Infrastructure # Repositórios, DbContext, integrações externas
+└── DeveloperStore.Sales.Tests          # Testes unitários
+````
 
 ## 📦 Modelagem do Domínio
 
 ### `Sale` (Venda)
-Entidade agregadora com os seguintes atributos:
-- `SaleNumber`: Identificador único da venda
-- `SaleDate`: Data da venda
-- `Customer`: Cliente (referência externa com ID + Nome)
-- `Branch`: Filial (referência externa com ID + Nome)
-- `Items`: Lista de produtos vendidos
-- `IsCancelled`: Indicador de cancelamento
-- `TotalAmount`: Valor total da venda (apenas itens ativos)
+
+Entidade agregadora com:
+
+* `SaleNumber`: identificador único da venda
+* `SaleDate`: data da venda
+* `Customer`: cliente (ID + Nome)
+* `Branch`: filial (ID + Nome)
+* `Items`: lista de produtos vendidos
+* `IsCancelled`: indicador de cancelamento
+* `TotalAmount`: valor total da venda (apenas itens não cancelados)
 
 ### `SaleItem` (Item da Venda)
-- `Product`: Produto (referência externa com ID + Nome)
-- `Quantity`: Quantidade adquirida
-- `UnitPrice`: Valor unitário
-- `Discount`: Desconto aplicado automaticamente
-- `TotalItemAmount`: Total do item após desconto
-- `IsCancelled`: Cancelamento individual do item
+
+* `Product`: produto (ID + Nome)
+* `Quantity`: quantidade adquirida
+* `UnitPrice`: valor unitário
+* `Discount`: desconto aplicado automaticamente
+* `TotalItemAmount`: total do item após desconto
+* `IsCancelled`: indicador de cancelamento do item
 
 ### Value Objects
-- `ExternalCustomer`, `ExternalBranch`, `ExternalProduct`: objetos imutáveis representando dados externos (ID + Nome), conforme o padrão de **identidade externa com denormalização**.
 
----
+* `ExternalCustomer`, `ExternalBranch`, `ExternalProduct`: objetos imutáveis representando dados externos (ID + Nome), conforme padrão de identidade externa com denormalização.
 
 ## 📜 Regras de Negócio
 
 | Quantidade de Itens | Desconto Aplicado |
-|---------------------|-------------------|
+| ------------------- | ----------------- |
 | Abaixo de 4         | 0% (sem desconto) |
-| 4 a 9               | 10%               |
-| 10 a 20             | 20%               |
+| De 4 a 9            | 10%               |
+| De 10 a 20          | 20%               |
 | Acima de 20         | Não permitido     |
 
-- Vendas podem ser canceladas integralmente ou por item
-- Descontos são automáticos e baseados apenas na **quantidade**
-- O valor total da venda considera apenas **itens não cancelados**
-
----
+* Vendas podem ser canceladas integralmente ou por item
+* Descontos são automáticos e baseados na **quantidade**
+* Total da venda considera apenas **itens não cancelados**
 
 ## 🔔 Eventos de Domínio
 
-Embora sem integração com um broker de mensagens, o projeto registra os seguintes eventos em log:
+Eventos registrados internamente (log):
 
-- `SaleCreated`
-- `SaleModified`
-- `SaleCancelled`
-- `ItemCancelled`
-
-Esses eventos são emitidos internamente no domínio para futura extensibilidade.
-
----
+* `SaleCreated`
+* `SaleModified`
+* `SaleCancelled`
+* `ItemCancelled`
 
 ## 💻 Como Clonar o Projeto
 
@@ -106,58 +93,52 @@ git clone https://github.com/rafasdiass/developerstore-sales-backend.git
 cd developerstore-sales-api
 ```
 
-
----
-
 ## ▶️ Como Executar
 
 ### Pré-requisitos
-- .NET SDK 9 instalado
-- Editor como VS Code ou Visual Studio
-- Terminal com Git instalado
+
+* .NET SDK 9 instalado
+* Editor (VS Code ou Visual Studio)
+* Git
 
 ### Passos
 
-1. Restaurar os pacotes:
-```bash
-dotnet restore
-```
+1. Restaurar pacotes
 
-2. Rodar a aplicação:
-```bash
-dotnet run --project src/DeveloperStore.Sales.API
-```
+   ```bash
+   dotnet restore
+   ```
 
-3. Acessar o Swagger para testes:
-```
-http://localhost:5000/swagger
-```
+2. Executar a aplicação
 
-> A porta pode variar conforme sua configuração local
+   ```bash
+   dotnet run --project src/DeveloperStore.Sales.API
+   ```
 
----
+3. Acessar o Swagger
+
+   ```text
+   http://localhost:5000/swagger
+   ```
 
 ## 🧪 Testes
 
-Para executar os testes unitários, utilize:
+Execute os testes unitários com:
 
 ```bash
 dotnet test
 ```
 
-A suíte cobre:
-- Regras de desconto
-- Cancelamento de venda e de item
-- Cálculo do valor total da venda
+Abrange:
 
----
+* regras de desconto
+* cancelamento de venda e item
+* totalização de venda
 
 ## 👤 Autor
 
 Desenvolvido por **Rafael de Souza Dias**
 
-- GitHub: [rafael](https://github.com/rafasdiass)
-- E-mail: rafasdiasdev@gmail.com
-- LinkedIn: [linkedin.com/in/rdrafaeldias](https://www.linkedin.com/in/rdrafaeldias/)
-
----
+* GitHub: [rafasdiass](https://github.com/rafasdiass)
+* E-mail: [rafasdiasdev@gmail.com](mailto:rafasdiasdev@gmail.com)
+* LinkedIn: [linkedin.com/in/rdrafaeldias](https://www.linkedin.com/in/rdrafaeldias/)

@@ -6,28 +6,28 @@ using DeveloperStore.Sales.Domain.Services;
 
 namespace DeveloperStore.Sales.Application.Commands.CreateSale
 {
-    /// <summary>
-    /// Handler responsável por processar o comando de criação de uma venda.
-    /// </summary>
     public class CreateSaleCommandHandler
     {
         private readonly ISaleRepository _repository;
         private readonly IDiscountCalculator _discountCalculator;
 
-        public CreateSaleCommandHandler(ISaleRepository repository, IDiscountCalculator discountCalculator)
+        public CreateSaleCommandHandler(
+            ISaleRepository repository,
+            IDiscountCalculator discountCalculator)
         {
-            _repository = repository;
-            _discountCalculator = discountCalculator;
+            _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+            _discountCalculator = discountCalculator ?? throw new ArgumentNullException(nameof(discountCalculator));
         }
 
-        /// <summary>
-        /// Executa o fluxo de criação da venda, instanciando Sale e SaleItem corretamente.
-        /// </summary>
         public async Task<Guid> HandleAsync(CreateSaleCommand command)
         {
-            // Cria o agregado raiz Sale com todos os parâmetros obrigatórios
+            if (command is null)
+                throw new ArgumentNullException(nameof(command));
+
+            if (command.Items is null || command.Items.Count == 0)
+                throw new ArgumentException("A venda deve ter pelo menos um item.", nameof(command.Items));
+
             var sale = new Sale(
-                command.SaleNumber,
                 command.SaleDate,
                 command.CustomerId,
                 command.CustomerName,
@@ -35,20 +35,22 @@ namespace DeveloperStore.Sales.Application.Commands.CreateSale
                 command.BranchName
             );
 
-            // Para cada item do comando, cria um SaleItem e adiciona na venda
-            foreach (var itemCommand in command.Items)
+            foreach (var itemCmd in command.Items)
             {
+                if (itemCmd is null)
+                    throw new ArgumentException("Item de venda não pode ser nulo.", nameof(command.Items));
+
                 var saleItem = new SaleItem(
-                    itemCommand.ProductId,
-                    itemCommand.ProductName,
-                    itemCommand.Quantity,
-                    itemCommand.UnitPrice,
+                    itemCmd.ProductId,
+                    itemCmd.ProductName,
+                    itemCmd.Quantity,
+                    itemCmd.UnitPrice,
                     _discountCalculator
                 );
+
                 sale.AddItem(saleItem);
             }
 
-            // Persiste e retorna o Id gerado
             return await _repository.AddAsync(sale);
         }
     }

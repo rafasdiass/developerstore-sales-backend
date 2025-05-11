@@ -1,94 +1,120 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DeveloperStore.Sales.Domain.Services;
 
 namespace DeveloperStore.Sales.Domain.Entities
 {
     /// <summary>
-    /// Representa uma venda com seus itens e dados de cliente e filial.
+    /// Representa uma venda no domínio.
     /// </summary>
     public class Sale
     {
         public Guid Id { get; private set; }
-        public string SaleNumber { get; private set; }
+        public string SaleNumber { get; private set; } = string.Empty;
         public DateTime SaleDate { get; private set; }
-
         public Guid CustomerId { get; private set; }
-        public string CustomerName { get; private set; }
-
+        public Customer? Customer { get; private set; }
+        public string CustomerName { get; private set; } = string.Empty;
         public Guid BranchId { get; private set; }
-        public string BranchName { get; private set; }
-
+        public string BranchName { get; private set; } = string.Empty;
         public bool IsCancelled { get; private set; }
 
-        private readonly List<SaleItem> _items = new List<SaleItem>();
+        /// <summary>
+        /// Timestamp de última modificação.
+        /// </summary>
+        public DateTime? UpdatedAt { get; private set; }
+
+        private readonly List<SaleItem> _items = new();
         public IReadOnlyCollection<SaleItem> Items => _items.AsReadOnly();
 
-        /// <summary>
-        /// Soma total da venda considerando os descontos de cada item.
-        /// </summary>
         public decimal TotalAmount => _items.Sum(i => i.TotalItemAmount);
 
-        /// <summary>
-        /// Construtor principal da venda.
-        /// </summary>
-        /// <param name="saleNumber">Número da venda</param>
-        /// <param name="saleDate">Data da venda</param>
-        /// <param name="customerId">ID do cliente</param>
-        /// <param name="customerName">Nome do cliente</param>
-        /// <param name="branchId">ID da filial</param>
-        /// <param name="branchName">Nome da filial</param>
+        private Sale() { } // para EF Core
+
         public Sale(
-            string saleNumber,
             DateTime saleDate,
             Guid customerId,
             string customerName,
             Guid branchId,
             string branchName)
         {
-            if (string.IsNullOrWhiteSpace(saleNumber))
-                throw new ArgumentException("O número da venda é obrigatório.", nameof(saleNumber));
-
             if (string.IsNullOrWhiteSpace(customerName))
-                throw new ArgumentException("O nome do cliente é obrigatório.", nameof(customerName));
-
+                throw new ArgumentException("Nome do cliente é obrigatório.", nameof(customerName));
             if (string.IsNullOrWhiteSpace(branchName))
-                throw new ArgumentException("O nome da filial é obrigatório.", nameof(branchName));
+                throw new ArgumentException("Nome da filial é obrigatório.", nameof(branchName));
 
             Id = Guid.NewGuid();
-            SaleNumber = saleNumber;
+            SaleNumber = GenerateSaleNumber();
             SaleDate = saleDate;
             CustomerId = customerId;
-            CustomerName = customerName;
+            CustomerName = customerName.Trim();
             BranchId = branchId;
-            BranchName = branchName;
+            BranchName = branchName.Trim();
             IsCancelled = false;
+            UpdatedAt = null;
         }
 
-        /// <summary>
-        /// Adiciona um item à venda.
-        /// </summary>
-        /// <param name="item">Item de venda</param>
         public void AddItem(SaleItem item)
         {
-            if (item == null)
+            if (item is null)
                 throw new ArgumentNullException(nameof(item));
 
             _items.Add(item);
+            UpdatedAt = DateTime.UtcNow;
         }
 
-        /// <summary>
-        /// Cancela a venda e todos os seus itens.
-        /// </summary>
+        public void ClearItems()
+        {
+            _items.Clear();
+            UpdatedAt = DateTime.UtcNow;
+        }
+
         public void Cancel()
         {
             if (IsCancelled) return;
 
             IsCancelled = true;
             foreach (var item in _items)
-            {
                 item.Cancel();
+
+            UpdatedAt = DateTime.UtcNow;
+        }
+
+        public void UpdateSaleDate(DateTime newDate)
+        {
+            if (SaleDate != newDate)
+            {
+                SaleDate = newDate;
+                UpdatedAt = DateTime.UtcNow;
             }
+        }
+
+        public void UpdateCustomer(Guid customerId, string customerName)
+        {
+            if (CustomerId != customerId || CustomerName != customerName)
+            {
+                CustomerId = customerId;
+                CustomerName = customerName.Trim();
+                UpdatedAt = DateTime.UtcNow;
+            }
+        }
+
+        public void UpdateBranch(Guid branchId, string branchName)
+        {
+            if (BranchId != branchId || BranchName != branchName)
+            {
+                BranchId = branchId;
+                BranchName = branchName.Trim();
+                UpdatedAt = DateTime.UtcNow;
+            }
+        }
+
+        private static string GenerateSaleNumber()
+        {
+            var timestamp = DateTime.UtcNow.ToString("yyyyMMddHHmmss");
+            var suffix = Guid.NewGuid().ToString("N")[..5].ToUpperInvariant();
+            return $"S{timestamp}-{suffix}";
         }
     }
 }

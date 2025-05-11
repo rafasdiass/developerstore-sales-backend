@@ -1,4 +1,4 @@
-// src/DeveloperStore.Sales.Application/Commands/CreateBranch/CreateBranchCommand.cs
+
 namespace DeveloperStore.Sales.Application.Commands.CreateBranch
 {
     /// <summary>

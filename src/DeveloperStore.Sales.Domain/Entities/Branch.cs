@@ -1,4 +1,4 @@
-// src/DeveloperStore.Sales.Domain/Entities/Branch.cs
+
 using System;
 
 namespace DeveloperStore.Sales.Domain.Entities

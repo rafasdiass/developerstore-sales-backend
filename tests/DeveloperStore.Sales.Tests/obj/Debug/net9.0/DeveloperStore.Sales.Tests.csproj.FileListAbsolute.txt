@@ -95,6 +95,7 @@
 /Users/rafaeldias/Downloads/teste .net/DeveloperStore.Sales/tests/DeveloperStore.Sales.Tests/obj/Debug/net9.0/DeveloperStore.Sales.Tests.AssemblyInfoInputs.cache
 /Users/rafaeldias/Downloads/teste .net/DeveloperStore.Sales/tests/DeveloperStore.Sales.Tests/obj/Debug/net9.0/DeveloperStore.Sales.Tests.AssemblyInfo.cs
 /Users/rafaeldias/Downloads/teste .net/DeveloperStore.Sales/tests/DeveloperStore.Sales.Tests/obj/Debug/net9.0/DeveloperStore.Sales.Tests.csproj.CoreCompileInputs.cache
+/Users/rafaeldias/Downloads/teste .net/DeveloperStore.Sales/tests/DeveloperStore.Sales.Tests/obj/Debug/net9.0/DeveloperStore.Sales.Tests.sourcelink.json
 /Users/rafaeldias/Downloads/teste .net/DeveloperStore.Sales/tests/DeveloperStore.Sales.Tests/obj/Debug/net9.0/Develope.188BAB4B.Up2Date
 /Users/rafaeldias/Downloads/teste .net/DeveloperStore.Sales/tests/DeveloperStore.Sales.Tests/obj/Debug/net9.0/DeveloperStore.Sales.Tests.dll
 /Users/rafaeldias/Downloads/teste .net/DeveloperStore.Sales/tests/DeveloperStore.Sales.Tests/obj/Debug/net9.0/refint/DeveloperStore.Sales.Tests.dll

@@ -3,39 +3,30 @@ using DeveloperStore.Sales.Domain.Services;
 
 namespace DeveloperStore.Sales.Domain.Entities
 {
-    /// <summary>
-    /// Representa um item dentro de uma venda.
-    /// </summary>
     public class SaleItem
     {
         public Guid Id { get; private set; }
-
+        public Sale? Sale { get; private set; }
+        public Guid SaleId { get; private set; }
         public Guid ProductId { get; private set; }
-
-        // Suprime aviso de não inicializado e será populado pelo EF Core
-        public string ProductName { get; private set; } = null!;
-
+        public string ProductName { get; private set; } = string.Empty;
         public int Quantity { get; private set; }
         public decimal UnitPrice { get; private set; }
         public decimal Discount { get; private set; }
         public bool IsCancelled { get; private set; }
 
         /// <summary>
-        /// Valor total do item (quantidade * preço unitário - desconto).
+        /// Timestamp da última modificação no item.
+        /// </summary>
+        public DateTime? UpdatedAt { get; private set; }
+
+        /// <summary>
+        /// Valor total do item com desconto.
         /// </summary>
         public decimal TotalItemAmount => Math.Round((UnitPrice * Quantity) - Discount, 2);
 
-        // Construtor para EF Core materializar a entidade
-        private SaleItem() { }
+        private SaleItem() { } // Para uso do EF Core
 
-        /// <summary>
-        /// Cria um novo item de venda, aplicando as regras de desconto.
-        /// </summary>
-        /// <param name="productId">ID do produto</param>
-        /// <param name="productName">Nome do produto</param>
-        /// <param name="quantity">Quantidade vendida</param>
-        /// <param name="unitPrice">Preço unitário</param>
-        /// <param name="discountCalculator">Serviço de cálculo de desconto</param>
         public SaleItem(
             Guid productId,
             string productName,
@@ -46,28 +37,37 @@ namespace DeveloperStore.Sales.Domain.Entities
             if (string.IsNullOrWhiteSpace(productName))
                 throw new ArgumentException("Nome do produto é obrigatório.", nameof(productName));
 
-            if (quantity <= 0)
-                throw new ArgumentException("Quantidade deve ser maior que zero.", nameof(quantity));
-
-            if (unitPrice <= 0)
-                throw new ArgumentException("Preço unitário deve ser maior que zero.", nameof(unitPrice));
-
+            Id = Guid.NewGuid();
             ProductId = productId;
-            ProductName = productName;
+            ProductName = productName.Trim();
             Quantity = quantity;
             UnitPrice = unitPrice;
             Discount = discountCalculator.Calculate(quantity, unitPrice);
             IsCancelled = false;
-            Id = Guid.NewGuid();
+            UpdatedAt = DateTime.UtcNow;
         }
 
         /// <summary>
-        /// Cancela o item da venda, se ainda não estiver cancelado.
+        /// Atualiza os dados do item de venda. Recalcula o desconto.
+        /// </summary>
+        public void Update(
+            int quantity,
+            decimal unitPrice,
+            IDiscountCalculator discountCalculator)
+        {
+            Quantity = quantity;
+            UnitPrice = unitPrice;
+            Discount = discountCalculator.Calculate(quantity, unitPrice);
+            UpdatedAt = DateTime.UtcNow;
+        }
+
+        /// <summary>
+        /// Cancela o item de venda.
         /// </summary>
         public void Cancel()
         {
-            if (!IsCancelled)
-                IsCancelled = true;
+            IsCancelled = true;
+            UpdatedAt = DateTime.UtcNow;
         }
     }
 }
