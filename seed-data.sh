@@ -79,4 +79,25 @@ SALE3_ID=$(curl "${CURL_OPTS[@]}" -X POST "$API/sales" -d "{
 echo "  • Venda 3 (Carla) -> $SALE3_ID"
 
 echo
-echo "=== 🎉 Seed concluído com sucesso! ==="
+echo "=== 5) Atualização da Venda 2 (PATCH) ==="
+curl "${CURL_OPTS[@]}" -X PATCH "$API/sales/$SALE2_ID" -d "{
+  \"saleDate\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\",
+  \"customerId\": \"$C2_ID\",
+  \"customerName\": \"Bruno Costa\",
+  \"branchId\": \"$BR2_ID\",
+  \"branchName\": \"Filial Zona Sul\",
+  \"items\": [
+    {\"productId\":\"$P2_ID\",\"productName\":\"Produto Y\",\"quantity\":10,\"unitPrice\":15.50},
+    {\"productId\":\"$P3_ID\",\"productName\":\"Produto Z\",\"quantity\":5,\"unitPrice\":7.25}
+  ]
+}"
+
+echo "  • Venda 2 atualizada com novas quantidades."
+
+echo
+echo "=== 6) Exclusão da Venda 3 (DELETE) ==="
+curl "${CURL_OPTS[@]}" -X DELETE "$API/sales/$SALE3_ID"
+echo "  • Venda 3 (Carla) excluída com sucesso."
+
+echo
+echo "=== ✅ Seed + Update + Delete finalizado com sucesso! ==="

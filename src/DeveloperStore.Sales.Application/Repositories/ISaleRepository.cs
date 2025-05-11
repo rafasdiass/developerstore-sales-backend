@@ -11,5 +11,6 @@ namespace DeveloperStore.Sales.Application.Repositories
         Task<Sale?> GetByIdAsync(Guid id);
         Task<IEnumerable<Sale>> GetAllAsync();
         Task UpdateAsync(Sale sale);
+        Task DeleteAsync(Guid id);
     }
 }

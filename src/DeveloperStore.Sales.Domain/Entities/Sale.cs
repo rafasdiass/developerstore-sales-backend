@@ -1,4 +1,3 @@
-// src/DeveloperStore.Sales.Domain/Entities/Sale.cs
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,12 +20,17 @@ namespace DeveloperStore.Sales.Domain.Entities
         public string BranchName { get; private set; } = string.Empty;
         public bool IsCancelled { get; private set; }
 
+        /// <summary>
+        /// Timestamp de última modificação.
+        /// </summary>
+        public DateTime? UpdatedAt { get; private set; }
+
         private readonly List<SaleItem> _items = new();
         public IReadOnlyCollection<SaleItem> Items => _items.AsReadOnly();
 
         public decimal TotalAmount => _items.Sum(i => i.TotalItemAmount);
 
-        private Sale() { } // Requisito do EF Core
+        private Sale() { } // para EF Core
 
         public Sale(
             DateTime saleDate,
@@ -48,6 +52,7 @@ namespace DeveloperStore.Sales.Domain.Entities
             BranchId = branchId;
             BranchName = branchName.Trim();
             IsCancelled = false;
+            UpdatedAt = null;
         }
 
         public void AddItem(SaleItem item)
@@ -56,6 +61,13 @@ namespace DeveloperStore.Sales.Domain.Entities
                 throw new ArgumentNullException(nameof(item));
 
             _items.Add(item);
+            UpdatedAt = DateTime.UtcNow;
+        }
+
+        public void ClearItems()
+        {
+            _items.Clear();
+            UpdatedAt = DateTime.UtcNow;
         }
 
         public void Cancel()
@@ -63,9 +75,39 @@ namespace DeveloperStore.Sales.Domain.Entities
             if (IsCancelled) return;
 
             IsCancelled = true;
-
             foreach (var item in _items)
                 item.Cancel();
+
+            UpdatedAt = DateTime.UtcNow;
+        }
+
+        public void UpdateSaleDate(DateTime newDate)
+        {
+            if (SaleDate != newDate)
+            {
+                SaleDate = newDate;
+                UpdatedAt = DateTime.UtcNow;
+            }
+        }
+
+        public void UpdateCustomer(Guid customerId, string customerName)
+        {
+            if (CustomerId != customerId || CustomerName != customerName)
+            {
+                CustomerId = customerId;
+                CustomerName = customerName.Trim();
+                UpdatedAt = DateTime.UtcNow;
+            }
+        }
+
+        public void UpdateBranch(Guid branchId, string branchName)
+        {
+            if (BranchId != branchId || BranchName != branchName)
+            {
+                BranchId = branchId;
+                BranchName = branchName.Trim();
+                UpdatedAt = DateTime.UtcNow;
+            }
         }
 
         private static string GenerateSaleNumber()

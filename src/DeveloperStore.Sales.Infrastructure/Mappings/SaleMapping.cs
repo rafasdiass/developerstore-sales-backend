@@ -1,4 +1,3 @@
-// src/DeveloperStore.Sales.Infrastructure/Mappings/SaleMapping.cs
 using DeveloperStore.Sales.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -37,7 +36,11 @@ namespace DeveloperStore.Sales.Infrastructure.Mappings
                      builder.Property(s => s.IsCancelled)
                             .IsRequired();
 
-                     // Ignorar propriedade calculada
+                     builder.Property(s => s.UpdatedAt)
+                            .HasColumnType("TEXT") // ISO string no SQLite
+                            .IsRequired(false);
+
+                     // Ignora propriedade calculada
                      builder.Ignore(s => s.TotalAmount);
 
                      builder.HasMany(s => s.Items)

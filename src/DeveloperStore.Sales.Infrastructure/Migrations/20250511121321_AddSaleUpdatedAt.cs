@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DeveloperStore.Sales.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class FixCustomerMapping : Migration
+    public partial class AddSaleUpdatedAt : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -60,7 +60,8 @@ namespace DeveloperStore.Sales.Infrastructure.Migrations
                     CustomerName = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
                     BranchId = table.Column<Guid>(type: "TEXT", nullable: false),
                     BranchName = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
-                    IsCancelled = table.Column<bool>(type: "INTEGER", nullable: false)
+                    IsCancelled = table.Column<bool>(type: "INTEGER", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -84,7 +85,8 @@ namespace DeveloperStore.Sales.Infrastructure.Migrations
                     Quantity = table.Column<int>(type: "INTEGER", nullable: false),
                     UnitPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Discount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    IsCancelled = table.Column<bool>(type: "INTEGER", nullable: false)
+                    IsCancelled = table.Column<bool>(type: "INTEGER", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {

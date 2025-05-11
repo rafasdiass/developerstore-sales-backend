@@ -13,10 +13,19 @@ namespace DeveloperStore.Sales.Domain.Entities
         public int Quantity { get; private set; }
         public decimal UnitPrice { get; private set; }
         public decimal Discount { get; private set; }
-        public decimal TotalItemAmount => Math.Round((UnitPrice * Quantity) - Discount, 2);
         public bool IsCancelled { get; private set; }
 
-        private SaleItem() { } // EF
+        /// <summary>
+        /// Timestamp da última modificação no item.
+        /// </summary>
+        public DateTime? UpdatedAt { get; private set; }
+
+        /// <summary>
+        /// Valor total do item com desconto.
+        /// </summary>
+        public decimal TotalItemAmount => Math.Round((UnitPrice * Quantity) - Discount, 2);
+
+        private SaleItem() { } // Para uso do EF Core
 
         public SaleItem(
             Guid productId,
@@ -35,11 +44,30 @@ namespace DeveloperStore.Sales.Domain.Entities
             UnitPrice = unitPrice;
             Discount = discountCalculator.Calculate(quantity, unitPrice);
             IsCancelled = false;
+            UpdatedAt = DateTime.UtcNow;
         }
 
+        /// <summary>
+        /// Atualiza os dados do item de venda. Recalcula o desconto.
+        /// </summary>
+        public void Update(
+            int quantity,
+            decimal unitPrice,
+            IDiscountCalculator discountCalculator)
+        {
+            Quantity = quantity;
+            UnitPrice = unitPrice;
+            Discount = discountCalculator.Calculate(quantity, unitPrice);
+            UpdatedAt = DateTime.UtcNow;
+        }
+
+        /// <summary>
+        /// Cancela o item de venda.
+        /// </summary>
         public void Cancel()
         {
             IsCancelled = true;
+            UpdatedAt = DateTime.UtcNow;
         }
     }
 }
